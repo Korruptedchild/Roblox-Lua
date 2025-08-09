@@ -43,11 +43,11 @@ spawn(function()
                 end
                 if targetPart then
                     hrp.CFrame = CFrame.new(targetPart.Position + Vector3.new(0, 5, 0))
-                    wait(0.1)
+                    wait(0.5)
                 end
             end
         else
-            wait(0.5)
+            wait(1)
         end
     end
 end)
