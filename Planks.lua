@@ -18,6 +18,7 @@ toggleButton.Font = Enum.Font.GothamBold
 toggleButton.TextSize = 16
 toggleButton.Text = "Disabled"
 toggleButton.Parent = gui
+toggleButton.Visible = true
 
 local isEnabled = false
 
