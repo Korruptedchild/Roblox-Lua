@@ -3,6 +3,26 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
+local playertype = {
+    this = 0,
+    teammate = 1,
+    enemy = 2,
+}
+
+local function areTeamMates(p1, p2)
+    return p1.Team == p2.Team
+end
+
+local function getPlayerType(p)
+    if p == player then
+        return playertype.this
+    elseif areTeamMates(player, p) then
+        return playertype.teammate
+    else
+        return playertype.enemy
+    end
+end
+
 local gui = Instance.new("ScreenGui")
 gui.Name = "AimbotUI"
 gui.ResetOnSpawn = false
@@ -27,6 +47,11 @@ toggleButton.MouseButton1Click:Connect(function()
     toggleButton.Text = isEnabled and "Enabled" or "Disabled"
 end)
 
+local function isAlive(character)
+    local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+    return humanoid and humanoid.Health > 0
+end
+
 local function GetEnemy()
     local closestPlayer = nil
     local shortestDistance = math.huge
@@ -34,7 +59,7 @@ local function GetEnemy()
     if not hrp then return nil end
 
     for _, otherPlayer in pairs(Players:GetPlayers()) do
-        if otherPlayer ~= player and otherPlayer.Character then
+        if otherPlayer.Character and getPlayerType(otherPlayer) == playertype.enemy and isAlive(otherPlayer.Character) then
             local enemyHRP = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
             if enemyHRP then
                 local dist = (hrp.Position - enemyHRP.Position).Magnitude
