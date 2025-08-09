@@ -32,8 +32,7 @@ task.spawn(function()
         if isFarming then
             local slimes = slimesFolder:GetChildren()
             for _, slime in ipairs(slimes) do
-                if not isFarming then break end -- stop instantly when button clicked
-
+                if not isFarming then break end
                 local targetPart
                 if slime:IsA("Model") then
                     targetPart = slime.PrimaryPart or slime:FindFirstChildWhichIsA("BasePart")
@@ -42,11 +41,10 @@ task.spawn(function()
                 end
                 if targetPart then
                     hrp.CFrame = CFrame.new(targetPart.Position + Vector3.new(0, 5, 0))
-                    task.wait(0.2) -- faster TP
                 end
             end
         else
-            task.wait(0.5)
+            task.wait(0.1)
         end
         task.wait()
     end
