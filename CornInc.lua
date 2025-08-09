@@ -32,7 +32,7 @@ task.spawn(function()
 		if isFarming then
 			for i = 1, 10 do
 				ReplicatedStorage:WaitForChild("CollectCornEvent"):FireServer("GoldenCorn")
-				ReplicatedStorage:WaitForChild("CollectCornEvent"):FireServer("SilverCorn")
+				ReplicatedStorage:WaitForChild("CollectCornEvent"):FireServer("RainbowCorn")
 			end
 			for i = 1, 10 do
 				ReplicatedStorage:WaitForChild("ClickEvent"):FireServer()
