@@ -1,6 +1,4 @@
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local hrp = character:WaitForChild("HumanoidRootPart")
@@ -25,17 +23,16 @@ toggleButton.Parent = gui
 local isFarming = false
 
 toggleButton.MouseButton1Click:Connect(function()
-	isFarming = not isFarming
-	toggleButton.Text = "Auto Farm: " .. (isFarming and "ON" or "OFF")
+    isFarming = not isFarming
+    toggleButton.Text = "Auto Farm: " .. (isFarming and "ON" or "OFF")
 end)
 
-spawn(function()
+task.spawn(function()
     while true do
         if isFarming then
             local slimes = slimesFolder:GetChildren()
-            for i = 1, #slimes do
-                local slime = slimes[i]
-                local targetPart = nil
+            for _, slime in ipairs(slimes) do
+                local targetPart
                 if slime:IsA("Model") then
                     targetPart = slime.PrimaryPart or slime:FindFirstChildWhichIsA("BasePart")
                 elseif slime:IsA("BasePart") then
@@ -43,11 +40,12 @@ spawn(function()
                 end
                 if targetPart then
                     hrp.CFrame = CFrame.new(targetPart.Position + Vector3.new(0, 5, 0))
-                    wait(0.5)
+                    task.wait(0.5)
                 end
             end
         else
-            wait(1)
+            task.wait(0.5)
         end
+        task.wait()
     end
 end)
