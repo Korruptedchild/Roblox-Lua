@@ -3,6 +3,29 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
+local gui = Instance.new("ScreenGui")
+gui.Name = "AimbotUI"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 150, 0, 40)
+toggleButton.Position = UDim2.new(0, 25, 0, 100)
+toggleButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+toggleButton.BorderSizePixel = 0
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.TextSize = 16
+toggleButton.Text = "Disabled"
+toggleButton.Parent = gui
+
+local isEnabled = false
+
+toggleButton.MouseButton1Click:Connect(function()
+    isEnabled = not isEnabled
+    toggleButton.Text = isEnabled and "Enabled" or "Disabled"
+end)
+
 local function GetEnemy()
     local closestPlayer = nil
     local shortestDistance = math.huge
@@ -25,6 +48,8 @@ local function GetEnemy()
 end
 
 RunService.RenderStepped:Connect(function()
+    if not isEnabled then return end
+
     local targetPart = GetEnemy()
     local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
     if targetPart and hrp then
